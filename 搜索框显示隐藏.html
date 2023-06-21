@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }
+
+        .search-input.active {
+            display: block;
+        }
+
+        .other-input {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-container">
+        <button class="search-btn">搜索</button>
+        <div class="search-input">
+            <input type="text" placeholder="请输入搜索内容">
+            <button class="bot-d">确定</button>
+        </div>
+
+    </div>
+    <input type="text" class="other-input" placeholder="其他输入框">
+    <script>
+        // toggle方法已经被jquery1.8之后所抛弃，所以我们在用toggle实现元素的隐藏和显示时不能直接用toggle()【要么使用1.8之前的jquery，要么替代】
+        const searchBtn = document.querySelector('.search-btn');
+        const searchInput = document.querySelector('.search-input');
+        const otherInput = document.querySelector('.other-input');
+
+        searchBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // 阻止事件冒泡
+            searchInput.classList.toggle('active');
+        });
+
+        searchInput.addEventListener('click', (event) => {
+            event.stopPropagation(); // 阻止事件冒泡
+        });
+
+        document.addEventListener('click', () => {
+            if (searchInput) {
+                console.log(1111);
+                searchInput.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+
+</html>

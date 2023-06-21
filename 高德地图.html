@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=612bef20cf095403974d0b0cd170103e"></script>
+    <style>
+        html,
+        body,
+        #container {
+            height: 100%;
+            width: 100%;
+        }
+
+        .input-card .btn {
+            margin-right: 1.2rem;
+            width: 9rem;
+        }
+
+        .input-card .btn:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <div class="input-card">
+        <h4>轨迹回放控制</h4>
+    </div>
+    <script>
+        var marker
+        var polylineList = [
+            [118.626495, 32.05714], [118.626785, 32.057396], [118.626892, 32.057491], [118.62735, 32.057919], [118.627472, 32.058029], [118.627556, 32.058102], [118.627808, 32.058334], [118.628204, 32.058693], [118.62896, 32.059357], [118.629112, 32.059509], [118.629295, 32.059666], [118.629402, 32.05975], [118.629501, 32.05983], [118.629837, 32.060143], [118.629837, 32.060204], [118.630028, 32.060368], [118.630142, 32.060471], [118.630363, 32.060677], [118.630371, 32.060688], [118.630737, 32.061008], [118.630852, 32.061108], [118.630989, 32.061226], [118.631119, 32.061359], [118.631271, 32.061485], [118.631645, 32.061813], [118.63192, 32.062057], [118.63237, 32.062454], [118.632515, 32.062572], [118.632607, 32.062645], [118.632896, 32.062885], [118.632988, 32.062965], [118.633209, 32.063141], [118.633781, 32.06358], [118.634094, 32.063835], [118.634216, 32.063919], [118.634514, 32.064144], [118.634811, 32.064362], [118.634811, 32.064362], [118.63501, 32.064419], [118.635162, 32.064423], [118.6353, 32.064396], [118.635414, 32.064358], [118.635788, 32.064137], [118.635788, 32.064137], [118.635651, 32.063931], [118.635597, 32.063915], [118.635201, 32.064106]
+        ]
+
+        // map 建立地图容器  (级别 中心)
+        var map = new AMap.Map('container', {
+            zoom: 1,
+            center: [116.469881, 39.993599],
+            showIndoorMap: false,//隐藏地图自带的室内地图图层
+        })
+
+        //polyline画线 折线
+        var polyline = new AMap.Polyline({
+            path: polylineList,
+            strokeColor: '#2f66ff',
+            strokeOpacity: 1,
+            strokeWeight: 4,
+            strokeStyle: 'solid',
+            strokeDasharray: [10, 5],
+            geodesic: true,
+        })
+        polyline.setMap(map)
+
+        //自适应所有的点 让点显示在可视区域内
+        var overlaysList = map.getAllOverlays('polyline')
+        map.setFitView(overlaysList)
+
+        //让车根据轨迹走 
+        var passedPolyline = new AMap.Polyline({
+            map: map,
+            strokeColor: "#AF5",  //线颜色
+            strokeWeight: 4,      //线宽
+        })
+
+        //车开始坐标
+        var marker = new AMap.Marker({
+            map: map,
+            position: [118.626495, 32.05714],
+            icon: "https://webapi.amap.com/images/car.png",
+            offset: new AMap.Pixel(-26, -13),
+            autoRotation: true,
+            angle: -90,
+        });
+        var i = 0, path = [];
+        const timer = setInterval(() => {
+            if (i === polylineList.length - 1) {
+                clearInterval(timer)
+            }
+            marker.moveTo(polylineList[i++], 300)
+        }, 1000)
+        marker.on('moving', function (e) {
+            Array.prototype.push.apply(path, e.passedPath)
+            passedPolyline.setPath(path);
+        })
+    </script>
+</body>
+
+</html>

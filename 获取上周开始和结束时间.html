@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function getTime() {
+            var lastweek = {};
+            var date = new Date();
+            // 上周一的日期
+            date.setDate(date.getDate() - 7 - date.getDay() + 1);
+            lastweek.start_day = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+            // 上周日的日期
+            date.setDate(date.getDate() + 6);
+            lastweek.end_day = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            return lastweek
+
+        }
+        console.log(getTime());
+    </script>
+</body>
+
+</html>
