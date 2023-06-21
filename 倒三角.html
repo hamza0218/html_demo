@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倒三角</title>
+    <style>
+        .dropdown{
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+        .dropdown:after {
+            content: " ";
+            width: 10px;
+            height: 10px;
+            -webkit-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            position: absolute;
+            top: -5px;
+            right: 15px;
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown"></div>
+</body>
+</html>
